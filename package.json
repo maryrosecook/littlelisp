@@ -1,0 +1,15 @@
+{
+  "name": "tinylisp",
+  "description": "An interpreter for a tiny lisp.",
+  "author": "Mary Rose Cook <maryrosecook@maryrosecook.com> (http://maryrosecook.com/)",
+  "version": "0.1.0",
+  "scripts": {
+    "test": "node_modules/jasmine-node/bin/jasmine-node *.spec.js"
+  },
+  "dependencies": {
+    "underscore": "1.4.4"
+  },
+  "devDependencies": {
+    "jasmine-node": "1.7.1"
+  }
+}
