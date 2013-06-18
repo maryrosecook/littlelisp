@@ -68,14 +68,14 @@
 
   var tokenize = function(input) {
     return input.split('"').map(function(x, i) {
-                   return i % 2 === 0 ? x : x.replace(/ /g, "!spaceholder!");
+                   return i % 2 === 0 ? x : x.replace(/ /g, "spaceholder");
                  }).join('"')
                 .replace(/\(/g, ' ( ')
                 .replace(/\)/g, ' ) ')
                 .trim()
                 .split(/ +/)
                 .map(function(x) {
-                  return x.replace(/!spaceholder!/, " ");
+                  return x.replace(/spaceholder/g, " ");
                 });
   };
 
