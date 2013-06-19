@@ -87,7 +87,7 @@ describe('tinyLisp', function() {
 
     describe('invocation', function() {
       it('should run print on an int', function() {
-        expect(t.interpret(t.parse("(print 1)"))).toEqual([1]);
+        expect(t.interpret(t.parse("(print 1)"))).toEqual("1");
       });
 
       it('should return first element of list', function() {
