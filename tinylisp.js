@@ -21,10 +21,10 @@
       return input.value;
     } else {
       if (input[0].type === "identifier") {
-        return ctx[input[0].value].apply(this, interpret(input.slice(1)));
+        return ctx[input[0].value].apply(this, interpret(input.slice(1), ctx));
       } else {
         return input.slice(0).map(function(x) {
-          return interpret(x);
+          return interpret(x, ctx);
         });
       }
     }
