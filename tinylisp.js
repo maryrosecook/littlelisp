@@ -8,10 +8,9 @@
       return x.slice(1);
     };
 
-    this.print = function() {
-      var argsArray = Array.prototype.slice.call(arguments);
-      console.log(argsArray);
-      return argsArray;
+    this.print = function(x) {
+      console.log(x);
+      return x;
     };
   };
 
