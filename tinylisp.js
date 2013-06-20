@@ -11,6 +11,10 @@
     this.print = function(x) {
       console.log(x);
       return x;
+
+  var Ctx = function(scope, parent) {
+    this.scope = scope;
+  };
     };
   };
 
