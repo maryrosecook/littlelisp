@@ -127,5 +127,35 @@ describe('tinyLisp', function() {
           .toEqual(1);
       });
     });
+
+    describe('let', function() {
+      it('should eval inner expression w names bound', function() {
+        expect(t.interpret(t.parse("(let ((x 1) (y 2)) (x y))"))).toEqual([1, 2]);
+      });
+
+      it('should not expose parallel bindings to each other', function() {
+        // Expecting undefined for y to be consistent with normal
+        // identifier resolution in tinyLisp.
+        expect(t.interpret(t.parse("(let ((x 1) (y x)) (x y))"))).toEqual([1, undefined]);
+      });
+
+      it('should accept empty binding list', function() {
+        expect(t.interpret(t.parse("(let () 42)"))).toEqual(42);
+      });
+    });
+
+    describe('letrec', function() {
+      it('should expose previous bindings to later ones', function() {
+        expect(t.interpret(t.parse("(letrec ((x 42) (y x)) y)"))).toEqual(42);
+      });
+
+      it('should not expose later bindings to previous ones', function() {
+        expect(t.interpret(t.parse("(letrec ((x y) (y 42)) x)"))).toEqual(undefined);
+      });
+
+      it('should accept empty binding list', function() {
+        expect(t.interpret(t.parse("(letrec () 42)"))).toEqual(42);
+      });
+    });
   });
 });
