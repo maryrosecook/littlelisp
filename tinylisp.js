@@ -72,21 +72,25 @@
     }
   };
 
-  var atDepth = function(output, depth) {
-    if (depth === 0) {
-      return output;
-    } else {
-      return atDepth(output[output.length - 1], depth - 1);
-    }
-  };
-
-  var type = function(input) {
-    if (!isNaN(parseFloat(input))) {
+  var categorize = function(input) {
+    if (input.length === 0) {
+      return [];
+    } else if (input instanceof Array) {
+      return input.map(categorize);
+    } else if (!isNaN(parseFloat(input))) {
       return { type:'literal', value: parseFloat(input) };
     } else if (input[0] === '"' && input.slice(-1) === '"') {
       return { type:'literal', value: input.slice(1, -1) };
     } else {
       return { type:'identifier', value: input };
+    }
+  };
+
+  var atDepth = function(output, depth) {
+    if (depth === 0) {
+      return output;
+    } else {
+      return atDepth(output[output.length - 1], depth - 1);
     }
   };
 
@@ -99,7 +103,7 @@
       } else if (token === ")") {
         depth--;
       } else {
-        atDepth(output, depth).push(type(token));
+        atDepth(output, depth).push(token);
       }
     });
 
@@ -120,7 +124,7 @@
   };
 
   var parse = function(input) {
-    return parenthesize(tokenize(input));
+    return categorize(parenthesize(tokenize(input)));
   };
 
   exports.tinyLisp = {};
