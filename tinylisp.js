@@ -113,7 +113,7 @@
                 .replace(/\(/g, ' ( ')
                 .replace(/\)/g, ' ) ')
                 .trim()
-                .split(/ +/)
+                .split(/\s+/)
                 .map(function(x) {
                   return x.replace(/spaceholder/g, " ");
                 });
