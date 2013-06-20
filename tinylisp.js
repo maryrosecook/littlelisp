@@ -15,12 +15,12 @@
   var Ctx = function(scope, parent) {
     this.scope = scope;
     this.parent = parent;
-    this.get = function(name) {
-      var item = this.scope[name];
+    this.get = function(identifier) {
+      var item = this.scope[identifier];
       if (item !== undefined) {
         return item;
       } else if (this.parent !== undefined) {
-        return this.parent.get(name);
+        return this.parent.get(identifier);
       }
     };
   };
