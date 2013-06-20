@@ -14,6 +14,7 @@
 
   var Ctx = function(scope, parent) {
     this.scope = scope;
+    this.parent = parent;
   };
     };
   };
