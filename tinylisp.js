@@ -62,7 +62,7 @@
         }
       }
     } else if (input.type === "identifier") {
-      if (typeof ctx.get(input.value) === "function") { // fn
+      if (ctx.get(input.value) instanceof Function) { // prepare fn
         return fn(input, ctx);
       } else { // var lookup
         return ctx.get(input.value);
