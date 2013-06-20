@@ -73,9 +73,7 @@
   };
 
   var categorize = function(input) {
-    if (input.length === 0) {
-      return [];
-    } else if (input instanceof Array) {
+    if (input instanceof Array) {
       return input.map(categorize);
     } else if (!isNaN(parseFloat(input))) {
       return { type:'literal', value: parseFloat(input) };
