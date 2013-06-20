@@ -75,12 +75,14 @@
   var categorize = function(input) {
     if (input instanceof Array) {
       return input.map(categorize);
-    } else if (!isNaN(parseFloat(input))) {
-      return { type:'literal', value: parseFloat(input) };
-    } else if (input[0] === '"' && input.slice(-1) === '"') {
-      return { type:'literal', value: input.slice(1, -1) };
-    } else {
-      return { type:'identifier', value: input };
+    } else { // atom
+      if (!isNaN(parseFloat(input))) {
+        return { type:'literal', value: parseFloat(input) };
+      } else if (input[0] === '"' && input.slice(-1) === '"') {
+        return { type:'literal', value: input.slice(1, -1) };
+      } else {
+        return { type:'identifier', value: input };
+      }
     }
   };
 
