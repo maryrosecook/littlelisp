@@ -24,6 +24,19 @@
       }
     };
   };
+
+  var lambda = function(input, ctx) {
+    return {
+      type: "lambda",
+      value: function(args) {
+        var params = input[1];
+        var code = input[2];
+        var lambdaScope = params.reduce(function(acc, x, i) {
+          acc[x.value] = args[i];
+          return acc;
+        }, {});
+        return interpret(code, new Ctx(lambdaScope, ctx));
+      }
     };
   };
 
@@ -34,13 +47,23 @@
       return ctx.get(input.value);
     } else if (input.value !== undefined) {
       return input.value;
-    } else {
-      if (input[0].type === "identifier") {
-        return ctx[input[0].value].apply(this, interpret(input.slice(1), ctx));
+    } else if (input[0].type === "identifier" &&
+               (input[0].value === "lambda" ||
+                typeof ctx.get(input[0].value) === "function")) {
+      if (input[0].value === "lambda") {
+        return lambda(input, ctx);
+      } else if (typeof ctx.get(input[0].value) === "function") {
+        return ctx.get(input[0].value).apply(undefined, interpret(input.slice(1), ctx));
+      }
+    } else { // list
+      var list = input.map(function(x) {
+        return interpret(x, ctx);
+      });
+
+      if (list[0].type === "lambda") {
+        return list[0].value(list.slice(1));
       } else {
-        return input.slice(0).map(function(x) {
-          return interpret(x, ctx);
-        });
+        return list;
       }
     }
   };
