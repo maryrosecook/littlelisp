@@ -50,7 +50,7 @@
   var interpret = function(input, ctx) {
     if (ctx === undefined) {
       return interpret(input, new Ctx(library));
-    } else if (Object.prototype.toString.call(input) === '[object Array]') {
+    } else if (input instanceof Array) {
       if (input[0].value === "lambda") {
         return lambda(input, ctx);
       } else {
