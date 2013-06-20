@@ -53,9 +53,9 @@
 
   var type = function(input) {
     if (!isNaN(parseFloat(input))) {
-      return { type:'number', value: parseFloat(input) };
+      return { type:'literal', value: parseFloat(input) };
     } else if (input[0] === '"' && input.slice(-1) === '"') {
-      return { type:'string', value: input.slice(1, -1) };
+      return { type:'literal', value: input.slice(1, -1) };
     } else {
       return { type:'identifier', value: input };
     }
