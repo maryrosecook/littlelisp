@@ -127,5 +127,4 @@
   exports.tinyLisp = {};
   exports.tinyLisp.parse = parse;
   exports.tinyLisp.interpret = interpret;
-  exports.tinyLisp.Ctx = Ctx;
 })(typeof exports === 'undefined' ? this : exports);
