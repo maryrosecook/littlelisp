@@ -15,6 +15,14 @@
   var Ctx = function(scope, parent) {
     this.scope = scope;
     this.parent = parent;
+    this.get = function(name) {
+      var item = this.scope[name];
+      if (item !== undefined) {
+        return item;
+      } else if (this.parent !== undefined) {
+        return this.parent.get(name);
+      }
+    };
   };
     };
   };
