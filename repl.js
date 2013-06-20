@@ -1,5 +1,5 @@
 var repl = require("repl");
-var tinyLisp = require("./tinyLisp").tinyLisp;
+var tinyLisp = require("./tinylisp").tinyLisp;
 
 repl.start({
   prompt: "> ",
