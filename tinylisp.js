@@ -30,6 +30,8 @@
   var interpret = function(input, ctx) {
     if (ctx === undefined) {
       return interpret(input, new Ctx(library));
+    } else if (input.type === "identifier") {
+      return ctx.get(input.value);
     } else if (input.value !== undefined) {
       return input.value;
     } else {
