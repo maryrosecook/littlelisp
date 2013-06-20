@@ -98,5 +98,34 @@ describe('tinyLisp', function() {
         expect(t.interpret(t.parse("(rest (1 2 3))"))).toEqual([2, 3]);
       });
     });
+
+    describe('lambdas', function() {
+      it('should take lambda and return lambda node', function() {
+        var l = t.interpret(t.parse("(lambda () (rest (1 2)))"));
+        expect(l.type).toEqual("lambda");
+        expect(typeof l.value).toEqual("function");
+      });
+
+      it('should return correct result when invoke lambda w no params', function() {
+        expect(t.interpret(t.parse("((lambda () (rest (1 2))))"))).toEqual([2]);
+      });
+
+      it('should return correct result for lambda that takes and returns arg', function() {
+        expect(t.interpret(t.parse("((lambda (x) x)) 1)"))).toEqual(1);
+      });
+
+      it('should return correct result for lambda that returns list of vars', function() {
+        expect(t.interpret(t.parse("((lambda (x y) (x y)) 1 2)"))).toEqual([1, 2]);
+      });
+
+      it('should get correct result for lambda that returns list of lits + vars', function() {
+        expect(t.interpret(t.parse("((lambda (x y) (0 x y)) 1 2)"))).toEqual([0, 1, 2]);
+      });
+
+      it('should return correct result when invoke lambda w params', function() {
+        expect(t.interpret(t.parse("((lambda (x) (first (x))) 1)")))
+          .toEqual(1);
+      });
+    });
   });
 });
