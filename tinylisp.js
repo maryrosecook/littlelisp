@@ -93,8 +93,7 @@
   var parenthesize = function(input) {
     var output = [];
     var depth = 0;
-    while (input.length > 0) {
-      var token = input.shift();
+    input.forEach (function(token) {
       if (token === "(") {
         atDepth(output, depth++).push([]);
       } else if (token === ")") {
@@ -102,7 +101,7 @@
       } else {
         atDepth(output, depth).push(type(token));
       }
-    }
+    });
 
     return output.pop();
   };
