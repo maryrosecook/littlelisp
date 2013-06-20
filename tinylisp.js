@@ -1,16 +1,16 @@
 ;(function(exports) {
-  var Ctx = function() {
-    this.first = function(x) {
+  var library = {
+    first: function(x) {
       return x[0];
-    };
-
-    this.rest = function(x) {
+    },
+    rest: function(x) {
       return x.slice(1);
-    };
-
-    this.print = function(x) {
+    },
+    print: function(x) {
       console.log(x);
       return x;
+    }
+  };
 
   var Ctx = function(scope, parent) {
     this.scope = scope;
@@ -29,7 +29,7 @@
 
   var interpret = function(input, ctx) {
     if (ctx === undefined) {
-      return interpret(input, new Ctx());
+      return interpret(input, new Ctx(library));
     } else if (input.value !== undefined) {
       return input.value;
     } else {
