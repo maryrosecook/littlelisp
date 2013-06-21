@@ -25,29 +25,6 @@
     };
   };
 
-  var lambda = function(input, ctx) {
-    return {
-      type: "function",
-      value: function(args) {
-        var lambdaScope = input[1].reduce(function(acc, x, i) {
-          acc[x.value] = args[i];
-          return acc;
-        }, {});
-        return interpret(input[2], new Ctx(lambdaScope, ctx));
-      }
-    };
-  };
-
-  var let_ = function(input, ctx) {
-    var letCtx = new Ctx({}, ctx);
-    input[1].forEach(function(binding) {
-      var name = binding[0].value;
-      var init = binding[1];
-      letCtx.scope[name] = interpret(init, ctx);
-    });
-    return interpret(input[2], letCtx);
-  };
-
   var fn = function(input, ctx) {
     return {
       type: "function",
@@ -57,14 +34,37 @@
     };
   };
 
+  var special = {
+    let: function(input, ctx) {
+      var letCtx = new Ctx({}, ctx);
+      input[1].forEach(function(binding) {
+        var name = binding[0].value;
+        var init = binding[1];
+        letCtx.scope[name] = interpret(init, ctx);
+      });
+      return interpret(input[2], letCtx);
+    },
+
+    lambda: function(input, ctx) {
+      return {
+        type: "function",
+        value: function(args) {
+          var lambdaScope = input[1].reduce(function(acc, x, i) {
+          acc[x.value] = args[i];
+            return acc;
+          }, {});
+          return interpret(input[2], new Ctx(lambdaScope, ctx));
+        }
+      };
+    }
+  };
+
   var interpret = function(input, ctx) {
     if (ctx === undefined) {
       return interpret(input, new Ctx(library));
     } else if (input instanceof Array) {
-      if (input[0].value === "lambda") {
-        return lambda(input, ctx);
-      } else if (input[0].value === "let") {
-        return let_(input, ctx);
+      if (input[0].value in special) {
+        return special[input[0].value](input, ctx);
       } else {
         var list = input.map(function(x) { return interpret(x, ctx); });
         if (list[0].type === "function") {
