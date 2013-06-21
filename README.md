@@ -6,6 +6,8 @@ A mini Lisp compiler in JavaScript.  Supports lists (obvs), function invocation,
 * http://maryrosecook.com
 * maryrosecook@maryrosecook.com
 
+Thank you to Martin Tornwall for the implementations of let and if.
+
 ## Repl
 
     $ npm run repl
