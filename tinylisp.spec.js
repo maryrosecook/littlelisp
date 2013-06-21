@@ -143,19 +143,5 @@ describe('tinyLisp', function() {
         expect(t.interpret(t.parse("(let () 42)"))).toEqual(42);
       });
     });
-
-    describe('letrec', function() {
-      it('should expose previous bindings to later ones', function() {
-        expect(t.interpret(t.parse("(letrec ((x 42) (y x)) y)"))).toEqual(42);
-      });
-
-      it('should not expose later bindings to previous ones', function() {
-        expect(t.interpret(t.parse("(letrec ((x y) (y 42)) x)"))).toEqual(undefined);
-      });
-
-      it('should accept empty binding list', function() {
-        expect(t.interpret(t.parse("(letrec () 42)"))).toEqual(42);
-      });
-    });
   });
 });
