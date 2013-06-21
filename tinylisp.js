@@ -48,6 +48,22 @@
     return interpret(input[2], letCtx);
   }
 
+  var if_ = function(input, ctx) {
+    return interpret(input[1], ctx) ?
+      interpret(input[2], ctx) :
+      interpret(input[3], ctx);
+  }
+
+  var shortCircuit = function(input, ctx, tshort) {
+    input.shift();
+    var expr;
+    while ((expr = input.shift())) {
+      if (interpret(expr, ctx) == tshort)
+        return tshort;
+    }
+    return !tshort;
+  }
+
   var fn = function(input, ctx) {
     return {
       type: "function",
@@ -65,6 +81,9 @@
       case "lambda": return lambda(input, ctx);
       case "letrec": return let(input, ctx, true);
       case "let":    return let(input, ctx, false);
+      case "if":     return if_(input, ctx);
+      case "or":     return shortCircuit(input, ctx, true);
+      case "and":    return shortCircuit(input, ctx, false);
       default:
         var list = input.map(function(x) { return interpret(x, ctx); });
         if (list[0].type === "function") {

@@ -157,5 +157,46 @@ describe('tinyLisp', function() {
         expect(t.interpret(t.parse("(letrec () 42)"))).toEqual(42);
       });
     });
+
+    describe('if', function() {
+      it('should choose the right branch', function() {
+        expect(t.interpret(t.parse("(if 1 42 4711)"))).toEqual(42);
+        expect(t.interpret(t.parse("(if 0 42 4711)"))).toEqual(4711);
+      });
+    });
+
+    describe('and', function() {
+      it('should be true when empty', function() {
+        expect(t.interpret(t.parse("(and)"))).toEqual(true);
+      });
+
+      it('should be false if any operand is false', function() {
+        expect(t.interpret(t.parse("(and 1 1 0 1)"))).toEqual(false);
+        expect(t.interpret(t.parse("(and 0 1"))).toEqual(false);
+        expect(t.interpret(t.parse("(and 1 0"))).toEqual(false);
+      });
+
+      it('should be true if all operands are true', function() {
+        expect(t.interpret(t.parse("(and 1 1"))).toEqual(true);
+        expect(t.interpret(t.parse("(and 1"))).toEqual(true);
+      });
+    });
+
+    describe('or', function() {
+      it('should be false when empty', function() {
+        expect(t.interpret(t.parse("(or)"))).toEqual(false);
+      });
+
+      it('should be true if any operand is true', function() {
+        expect(t.interpret(t.parse("(or 1 1 0 1)"))).toEqual(true);
+        expect(t.interpret(t.parse("(or 0 1"))).toEqual(true);
+        expect(t.interpret(t.parse("(or 1 0"))).toEqual(true);
+      });
+
+      it('should be false if all operands are false', function() {
+        expect(t.interpret(t.parse("(or 0 0"))).toEqual(false);
+        expect(t.interpret(t.parse("(or 0"))).toEqual(false);
+      });
+    });
   });
 });
