@@ -61,11 +61,13 @@
     if (ctx === undefined) {
       return interpret(input, new Ctx(library));
     } else if (input instanceof Array) {
-      switch (input[0].value) {
-      case "lambda": return lambda(input, ctx);
-      case "letrec": return let_(input, ctx, true);
-      case "let":    return let_(input, ctx, false);
-      default:
+      if (input[0].value === "lambda") {
+        return lambda(input, ctx);
+      } else if (input[0].value === "letrec") {
+        return let_(input, ctx, true);
+      } else if (input[0].value === "let") {
+        return let_(input, ctx, false);
+      } else {
         var list = input.map(function(x) { return interpret(x, ctx); });
         if (list[0].type === "function") {
           return list[0].value(list.slice(1));
