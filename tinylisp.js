@@ -46,7 +46,7 @@
       letCtx.scope[name] = interpret(init, ctx);
     });
     return interpret(input[2], letCtx);
-  }
+  };
 
   var fn = function(input, ctx) {
     return {
