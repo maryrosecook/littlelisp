@@ -38,6 +38,16 @@
     };
   };
 
+  var let = function(input, ctx, rec) {
+    var letCtx = new Ctx({}, ctx);
+    input[1].forEach(function(binding) {
+      var name = binding[0].value;
+      var init = binding[1];
+      letCtx.scope[name] = interpret(init, rec ? letCtx : ctx);
+    });
+    return interpret(input[2], letCtx);
+  }
+
   var fn = function(input, ctx) {
     return {
       type: "function",
@@ -51,9 +61,11 @@
     if (ctx === undefined) {
       return interpret(input, new Ctx(library));
     } else if (input instanceof Array) {
-      if (input[0].value === "lambda") {
-        return lambda(input, ctx);
-      } else {
+      switch (input[0].value) {
+      case "lambda": return lambda(input, ctx);
+      case "letrec": return let(input, ctx, true);
+      case "let":    return let(input, ctx, false);
+      default:
         var list = input.map(function(x) { return interpret(x, ctx); });
         if (list[0].type === "function") {
           return list[0].value(list.slice(1));
