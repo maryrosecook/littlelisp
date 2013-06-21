@@ -38,7 +38,7 @@
     };
   };
 
-  var let = function(input, ctx, rec) {
+  var let_ = function(input, ctx, rec) {
     var letCtx = new Ctx({}, ctx);
     input[1].forEach(function(binding) {
       var name = binding[0].value;
@@ -63,8 +63,8 @@
     } else if (input instanceof Array) {
       switch (input[0].value) {
       case "lambda": return lambda(input, ctx);
-      case "letrec": return let(input, ctx, true);
-      case "let":    return let(input, ctx, false);
+      case "letrec": return let_(input, ctx, true);
+      case "let":    return let_(input, ctx, false);
       default:
         var list = input.map(function(x) { return interpret(x, ctx); });
         if (list[0].type === "function") {
