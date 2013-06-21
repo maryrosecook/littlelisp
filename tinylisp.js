@@ -56,7 +56,20 @@
           return interpret(input[2], new Ctx(lambdaScope, ctx));
         }
       };
+    },
+
+    if: function(input, ctx) {
+      return interpret(input[1], ctx) ? interpret(input[2], ctx) : interpret(input[3], ctx);
     }
+  };
+
+  var fn = function(input, ctx) {
+    return {
+      type: "function",
+      value: function(args) {
+        return ctx.get(input.value).apply(undefined, args);
+      }
+    };
   };
 
   var interpret = function(input, ctx) {

@@ -143,5 +143,12 @@ describe('tinyLisp', function() {
         expect(t.interpret(t.parse("(let () 42)"))).toEqual(42);
       });
     });
+
+    describe('if', function() {
+      it('should choose the right branch', function() {
+        expect(t.interpret(t.parse("(if 1 42 4711)"))).toEqual(42);
+        expect(t.interpret(t.parse("(if 0 42 4711)"))).toEqual(4711);
+      });
+    });
   });
 });
