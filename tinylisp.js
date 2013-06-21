@@ -25,15 +25,6 @@
     };
   };
 
-  var fn = function(input, ctx) {
-    return {
-      type: "function",
-      value: function(args) {
-        return ctx.get(input.value).apply(undefined, args);
-      }
-    };
-  };
-
   var special = {
     let: function(input, ctx) {
       var letCtx = new Ctx({}, ctx);
