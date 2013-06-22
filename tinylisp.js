@@ -62,26 +62,32 @@
     };
   };
 
+  var interpretArray = function(input, ctx) {
+    if (input[0].value in special) {
+      return special[input[0].value](input, ctx);
+    } else {
+      var list = input.map(function(x) { return interpret(x, ctx); });
+      if (list[0].type === "function") {
+        return list[0].value(list.slice(1));
+      } else {
+        return list;
+      }
+    }
+  };
+
+  var interpretIdentifier = function(input, ctx) {
+    return ctx.get(input.value) instanceof Function ?
+      fn(input, ctx) : // prepare fn
+      ctx.get(input.value); // var lookup
+  };
+
   var interpret = function(input, ctx) {
     if (ctx === undefined) {
       return interpret(input, new Ctx(library));
     } else if (input instanceof Array) {
-      if (input[0].value in special) {
-        return special[input[0].value](input, ctx);
-      } else {
-        var list = input.map(function(x) { return interpret(x, ctx); });
-        if (list[0].type === "function") {
-          return list[0].value(list.slice(1));
-        } else {
-          return list;
-        }
-      }
+      return interpretArray(input, ctx);
     } else if (input.type === "identifier") {
-      if (ctx.get(input.value) instanceof Function) { // prepare fn
-        return fn(input, ctx);
-      } else { // var lookup
-        return ctx.get(input.value);
-      }
+      return interpretIdentifier(input, ctx);
     } else { // literal
       return input.value;
     }
