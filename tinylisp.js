@@ -64,7 +64,7 @@
     };
   };
 
-  var interpretArray = function(input, context) {
+  var interpretList = function(input, context) {
     if (input[0].value in special) {
       return special[input[0].value](input, context);
     } else {
@@ -87,7 +87,7 @@
     if (context === undefined) {
       return interpret(input, new Context(library));
     } else if (input instanceof Array) {
-      return interpretArray(input, context);
+      return interpretList(input, context);
     } else if (input.type === "identifier") {
       return interpretIdentifier(input, context);
     } else { // literal
