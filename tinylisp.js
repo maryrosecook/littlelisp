@@ -16,9 +16,8 @@
     this.scope = scope;
     this.parent = parent;
     this.get = function(identifier) {
-      var item = this.scope[identifier];
-      if (item !== undefined) {
-        return item;
+      if (identifier in this.scope) {
+        return this.scope[identifier];
       } else if (this.parent !== undefined) {
         return this.parent.get(identifier);
       }
