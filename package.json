@@ -7,9 +7,6 @@
     "test": "node_modules/jasmine-node/bin/jasmine-node *.spec.js",
     "repl": "node repl.js"
   },
-  "dependencies": {
-    "underscore": "1.4.4"
-  },
   "devDependencies": {
     "jasmine-node": "1.7.1"
   }
