@@ -27,10 +27,8 @@
   var special = {
     let: function(input, context) {
       var letContext = new Context({}, context);
-      input[1].forEach(function(binding) {
-        var name = binding[0].value;
-        var init = binding[1];
-        letContext.scope[name] = interpret(init, context);
+      input[1].forEach(function(x) {
+        letContext.scope[x[0].value] = interpret(x[1], context);
       });
       return interpret(input[2], letContext);
     },
