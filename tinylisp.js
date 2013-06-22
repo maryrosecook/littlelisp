@@ -12,7 +12,7 @@
     }
   };
 
-  var Ctx = function(scope, parent) {
+  var Context = function(scope, parent) {
     this.scope = scope;
     this.parent = parent;
     this.get = function(identifier) {
@@ -25,17 +25,17 @@
   };
 
   var special = {
-    let: function(input, ctx) {
-      var letCtx = new Ctx({}, ctx);
+    let: function(input, context) {
+      var letContext = new Context({}, context);
       input[1].forEach(function(binding) {
         var name = binding[0].value;
         var init = binding[1];
-        letCtx.scope[name] = interpret(init, ctx);
+        letContext.scope[name] = interpret(init, context);
       });
-      return interpret(input[2], letCtx);
+      return interpret(input[2], letContext);
     },
 
-    lambda: function(input, ctx) {
+    lambda: function(input, context) {
       return {
         type: "function",
         value: function(args) {
@@ -43,30 +43,32 @@
           acc[x.value] = args[i];
             return acc;
           }, {});
-          return interpret(input[2], new Ctx(lambdaScope, ctx));
+          return interpret(input[2], new Context(lambdaScope, context));
         }
       };
     },
 
-    if: function(input, ctx) {
-      return interpret(input[1], ctx) ? interpret(input[2], ctx) : interpret(input[3], ctx);
+    if: function(input, context) {
+      return interpret(input[1], context) ?
+        interpret(input[2], context) :
+        interpret(input[3], context);
     }
   };
 
-  var fn = function(input, ctx) {
+  var fn = function(input, context) {
     return {
       type: "function",
       value: function(args) {
-        return ctx.get(input.value).apply(undefined, args);
+        return context.get(input.value).apply(undefined, args);
       }
     };
   };
 
-  var interpretArray = function(input, ctx) {
+  var interpretArray = function(input, context) {
     if (input[0].value in special) {
-      return special[input[0].value](input, ctx);
+      return special[input[0].value](input, context);
     } else {
-      var list = input.map(function(x) { return interpret(x, ctx); });
+      var list = input.map(function(x) { return interpret(x, context); });
       if (list[0].type === "function") {
         return list[0].value(list.slice(1));
       } else {
@@ -75,19 +77,19 @@
     }
   };
 
-  var interpretIdentifier = function(input, ctx) {
-    return ctx.get(input.value) instanceof Function ?
-      fn(input, ctx) : // prepare fn
-      ctx.get(input.value); // var lookup
+  var interpretIdentifier = function(input, context) {
+    return context.get(input.value) instanceof Function ?
+      fn(input, context) : // prepare fn
+      context.get(input.value); // var lookup
   };
 
-  var interpret = function(input, ctx) {
-    if (ctx === undefined) {
-      return interpret(input, new Ctx(library));
+  var interpret = function(input, context) {
+    if (context === undefined) {
+      return interpret(input, new Context(library));
     } else if (input instanceof Array) {
-      return interpretArray(input, ctx);
+      return interpretArray(input, context);
     } else if (input.type === "identifier") {
-      return interpretIdentifier(input, ctx);
+      return interpretIdentifier(input, context);
     } else { // literal
       return input.value;
     }
