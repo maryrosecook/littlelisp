@@ -26,10 +26,10 @@
 
   var special = {
     let: function(input, context) {
-      var letContext = new Context({}, context);
-      input[1].forEach(function(x) {
-        letContext.scope[x[0].value] = interpret(x[1], context);
-      });
+      var letContext = input[1].reduce(function(acc, x) {
+        acc.scope[x[0].value] = interpret(x[1], context);
+        return acc;
+      }, new Context({}, context));
       return interpret(input[2], letContext);
     },
 
