@@ -35,7 +35,7 @@
 
     lambda: function(input, context) {
       return {
-        type: "function",
+        type: "invocation",
         value: function(args) {
           var lambdaScope = input[1].reduce(function(acc, x, i) {
           acc[x.value] = args[i];
@@ -53,9 +53,9 @@
     }
   };
 
-  var fn = function(input, context) {
+  var createFunctionInvocation = function(input, context) {
     return {
-      type: "function",
+      type: "invocation",
       value: function(args) {
         return context.get(input.value).apply(undefined, args);
       }
@@ -67,7 +67,7 @@
       return special[input[0].value](input, context);
     } else {
       var list = input.map(function(x) { return interpret(x, context); });
-      if (list[0].type === "function") {
+      if (list[0].type === "invocation") {
         return list[0].value(list.slice(1));
       } else {
         return list;
@@ -77,7 +77,7 @@
 
   var interpretIdentifier = function(input, context) {
     return context.get(input.value) instanceof Function ?
-      fn(input, context) : // prepare fn
+      createFunctionInvocation(input, context) : // prepare fn invocation
       context.get(input.value); // var lookup
   };
 

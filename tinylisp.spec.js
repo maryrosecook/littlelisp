@@ -102,7 +102,7 @@ describe('tinyLisp', function() {
     describe('lambdas', function() {
       it('should take lambda and return lambda node', function() {
         var l = t.interpret(t.parse("(lambda () (rest (1 2)))"));
-        expect(l.type).toEqual("function");
+        expect(l.type).toEqual("invocation");
         expect(typeof l.value).toEqual("function");
       });
 
