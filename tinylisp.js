@@ -94,16 +94,12 @@
   };
 
   var categorize = function(input) {
-    if (input instanceof Array) {
-      return input.map(categorize);
-    } else { // atom
-      if (!isNaN(parseFloat(input))) {
-        return { type:'literal', value: parseFloat(input) };
-      } else if (input[0] === '"' && input.slice(-1) === '"') {
-        return { type:'literal', value: input.slice(1, -1) };
-      } else {
-        return { type:'identifier', value: input };
-      }
+    if (!isNaN(parseFloat(input))) {
+      return { type:'literal', value: parseFloat(input) };
+    } else if (input[0] === '"' && input.slice(-1) === '"') {
+      return { type:'literal', value: input.slice(1, -1) };
+    } else {
+      return { type:'identifier', value: input };
     }
   };
 
@@ -124,7 +120,7 @@
       } else if (token === ")") {
         depth--;
       } else {
-        atDepth(output, depth).push(token);
+        atDepth(output, depth).push(categorize(token));
       }
     });
 
@@ -145,7 +141,7 @@
   };
 
   var parse = function(input) {
-    return categorize(parenthesize(tokenize(input)));
+    return parenthesize(tokenize(input));
   };
 
   exports.tinyLisp = {};
