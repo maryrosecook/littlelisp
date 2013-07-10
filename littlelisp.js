@@ -128,7 +128,7 @@
     return parenthesize(tokenize(input));
   };
 
-  exports.tinyLisp = {};
-  exports.tinyLisp.parse = parse;
-  exports.tinyLisp.interpret = interpret;
+  exports.littleLisp = {};
+  exports.littleLisp.parse = parse;
+  exports.littleLisp.interpret = interpret;
 })(typeof exports === 'undefined' ? this : exports);

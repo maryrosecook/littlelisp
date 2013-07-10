@@ -1,4 +1,4 @@
-var t = require('./tinylisp').tinyLisp;
+var t = require('./littlelisp').littleLisp;
 
 var is = function(input, type) {
   return Object.prototype.toString.call(input) === '[object ' + type + ']';
@@ -19,7 +19,7 @@ var unannotate = function(input) {
   }
 };
 
-describe('tinyLisp', function() {
+describe('littleLisp', function() {
   describe('parse', function() {
     it('should lex an atom in a list', function() {
       expect(unannotate(t.parse("()"))).toEqual([]);
@@ -129,7 +129,7 @@ describe('tinyLisp', function() {
 
       it('should not expose parallel bindings to each other', function() {
         // Expecting undefined for y to be consistent with normal
-        // identifier resolution in tinyLisp.
+        // identifier resolution in littleLisp.
         expect(t.interpret(t.parse("(let ((x 1) (y x)) (x y))"))).toEqual([1, undefined]);
       });
 

@@ -1,6 +1,6 @@
 {
-  "name": "tinylisp",
-  "description": "An interpreter for a tiny lisp.",
+  "name": "littlelisp",
+  "description": "An interpreter for a little lisp.",
   "author": "Mary Rose Cook <maryrosecook@maryrosecook.com> (http://maryrosecook.com/)",
   "version": "0.1.0",
   "scripts": {
