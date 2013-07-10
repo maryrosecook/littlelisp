@@ -53,32 +53,17 @@
     }
   };
 
-  var createFunctionInvocation = function(input, context) {
-    return {
-      type: "invocation",
-      value: function(args) {
-        return context.get(input.value).apply(undefined, args);
-      }
-    };
-  };
-
   var interpretList = function(input, context) {
     if (input[0].value in special) {
       return special[input[0].value](input, context);
     } else {
       var list = input.map(function(x) { return interpret(x, context); });
-      if (list[0].type === "invocation") {
-        return list[0].value(list.slice(1));
+      if (list[0] instanceof Function) { // check here for js fn (lambda or built-in)
+        return list[0].apply(undefined, list.slice(1));
       } else {
         return list;
       }
     }
-  };
-
-  var interpretIdentifier = function(input, context) {
-    return context.get(input.value) instanceof Function ?
-      createFunctionInvocation(input, context) : // prepare fn invocation
-      context.get(input.value); // var lookup
   };
 
   var interpret = function(input, context) {
@@ -87,7 +72,7 @@
     } else if (input instanceof Array) {
       return interpretList(input, context);
     } else if (input.type === "identifier") {
-      return interpretIdentifier(input, context);
+      return context.get(input.value);
     } else { // literal
       return input.value;
     }
