@@ -10,4 +10,4 @@ Thank you to Martin Tornwall for the implementations of let and if.
 
 ## Repl
 
-    $ npm run repl
+    $ node repl.js
