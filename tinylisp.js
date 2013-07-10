@@ -34,15 +34,13 @@
     },
 
     lambda: function(input, context) {
-      return {
-        type: "invocation",
-        value: function(args) {
-          var lambdaScope = input[1].reduce(function(acc, x, i) {
-          acc[x.value] = args[i];
-            return acc;
-          }, {});
-          return interpret(input[2], new Context(lambdaScope, context));
-        }
+      return function() {
+        var lambdaArguments = arguments;
+        var lambdaScope = input[1].reduce(function(acc, x, i) {
+          acc[x.value] = lambdaArguments[i];
+          return acc;
+        }, {});
+        return interpret(input[2], new Context(lambdaScope, context));
       };
     },
 
@@ -96,6 +94,7 @@
     }
   };
 
+  // do this without depth
   var parenthesize = function(input) {
     var output = [];
     var depth = 0;
