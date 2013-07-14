@@ -105,7 +105,7 @@ describe('littleLisp', function() {
       });
 
       it('should return correct result for lambda that takes and returns arg', function() {
-        expect(t.interpret(t.parse("((lambda (x) x)) 1)"))).toEqual(1);
+        expect(t.interpret(t.parse("((lambda (x) x) 1)"))).toEqual(1);
       });
 
       it('should return correct result for lambda that returns list of vars', function() {
