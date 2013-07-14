@@ -21,6 +21,10 @@ var unannotate = function(input) {
 
 describe('littleLisp', function() {
   describe('parse', function() {
+    it('should lex a single atom', function() {
+      expect(t.parse("a").value).toEqual("a");
+    });
+
     it('should lex an atom in a list', function() {
       expect(unannotate(t.parse("()"))).toEqual([]);
     });
