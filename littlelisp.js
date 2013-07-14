@@ -15,6 +15,7 @@
   var Context = function(scope, parent) {
     this.scope = scope;
     this.parent = parent;
+
     this.get = function(identifier) {
       if (identifier in this.scope) {
         return this.scope[identifier];
@@ -30,6 +31,7 @@
         acc.scope[x[0].value] = interpret(x[1], context);
         return acc;
       }, new Context({}, context));
+
       return interpret(input[2], letContext);
     },
 
@@ -40,6 +42,7 @@
           acc[x.value] = lambdaArguments[i];
           return acc;
         }, {});
+
         return interpret(input[2], new Context(lambdaScope, context));
       };
     },
