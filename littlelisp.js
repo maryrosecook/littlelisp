@@ -59,7 +59,7 @@
       return special[input[0].value](input, context);
     } else {
       var list = input.map(function(x) { return interpret(x, context); });
-      if (list[0] instanceof Function) { // check here for js fn (lambda or built-in)
+      if (list[0] instanceof Function) {
         return list[0].apply(undefined, list.slice(1));
       } else {
         return list;
