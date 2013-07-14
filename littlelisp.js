@@ -89,29 +89,22 @@
     }
   };
 
-  var atDepth = function(output, depth) {
-    if (depth === 0) {
-      return output;
+  var parenthesize = function(input, list) {
+    if (list === undefined) {
+      return parenthesize(input, []);
     } else {
-      return atDepth(output[output.length - 1], depth - 1);
-    }
-  };
-
-  // do this without depth
-  var parenthesize = function(input) {
-    var output = [];
-    var depth = 0;
-    input.forEach (function(token) {
-      if (token === "(") {
-        atDepth(output, depth++).push([]);
+      var token = input.shift();
+      if (token === undefined) {
+        return list.pop();
+      } else if (token === "(") {
+        list.push(parenthesize(input, []));
+        return parenthesize(input, list);
       } else if (token === ")") {
-        depth--;
+        return list;
       } else {
-        atDepth(output, depth).push(categorize(token));
+        return parenthesize(input, list.concat(categorize(token)));
       }
-    });
-
-    return output.pop();
+    }
   };
 
   var tokenize = function(input) {
