@@ -108,15 +108,20 @@
   };
 
   var tokenize = function(input) {
-    return input.split('"').map(function(x, i) {
-                   return i % 2 === 0 ? x : x.replace(/ /g, "!!!!!!!!!!!!");
-                 }).join('"')
-                .replace(/\(/g, ' ( ')
-                .replace(/\)/g, ' ) ')
+    return input.split('"')
+                .map(function(x, i) {
+                   if (i % 2 === 0) { // not in string
+                     return x.replace(/\(/g, ' ( ')
+                             .replace(/\)/g, ' ) ');
+                   } else { // in string
+                     return x.replace(/ /g, "!whitespace!");
+                   }
+                 })
+                .join('"')
                 .trim()
                 .split(/\s+/)
                 .map(function(x) {
-                  return x.replace(/!!!!!!!!!!!!/g, " ");
+                  return x.replace(/!whitespace!/g, " ");
                 });
   };
 

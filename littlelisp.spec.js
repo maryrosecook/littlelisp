@@ -84,6 +84,18 @@ describe('littleLisp', function() {
         expect(t.interpret(t.parse('"a b"'))).toEqual("a b");
       });
 
+      it('should return string with opening paren', function() {
+        expect(t.interpret(t.parse('"(a"'))).toEqual("(a");
+      });
+
+      it('should return string with closing paren', function() {
+        expect(t.interpret(t.parse('")a"'))).toEqual(")a");
+      });
+
+      it('should return string with parens', function() {
+        expect(t.interpret(t.parse('"(a)"'))).toEqual("(a)");
+      });
+
       it('should return number atom', function() {
         expect(t.interpret(t.parse('123'))).toEqual(123);
       });
