@@ -55,7 +55,7 @@
   };
 
   var interpretList = function(input, context) {
-    if (input[0].value in special) {
+    if (input.length > 0 && input[0].value in special) {
       return special[input[0].value](input, context);
     } else {
       var list = input.map(function(x) { return interpret(x, context); });
