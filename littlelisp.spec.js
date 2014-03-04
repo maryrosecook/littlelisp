@@ -62,6 +62,10 @@ describe('littleLisp', function() {
 
   describe('interpret', function() {
     describe('lists', function() {
+      it('should return empty list', function() {
+        expect(t.interpret(t.parse('()'))).toEqual([]);
+      });
+
       it('should return list of strings', function() {
         expect(t.interpret(t.parse('("hi" "mary" "rose")'))).toEqual(['hi', "mary", "rose"]);
       });
