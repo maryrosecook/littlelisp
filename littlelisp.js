@@ -3,9 +3,11 @@
     first: function(x) {
       return x[0];
     },
+
     rest: function(x) {
       return x.slice(1);
     },
+
     print: function(x) {
       console.log(x);
       return x;
@@ -74,16 +76,16 @@
       return interpretList(input, context);
     } else if (input.type === "identifier") {
       return context.get(input.value);
-    } else { // literal
+    } else if (input.type === "number" || input.type === "string") {
       return input.value;
     }
   };
 
   var categorize = function(input) {
     if (!isNaN(parseFloat(input))) {
-      return { type:'literal', value: parseFloat(input) };
+      return { type:'number', value: parseFloat(input) };
     } else if (input[0] === '"' && input.slice(-1) === '"') {
-      return { type:'literal', value: input.slice(1, -1) };
+      return { type:'string', value: input.slice(1, -1) };
     } else {
       return { type:'identifier', value: input };
     }
@@ -129,7 +131,8 @@
     return parenthesize(tokenize(input));
   };
 
-  exports.littleLisp = {};
-  exports.littleLisp.parse = parse;
-  exports.littleLisp.interpret = interpret;
+  exports.littleLisp = {
+    parse: parse,
+    interpret: interpret
+  };
 })(typeof exports === 'undefined' ? this : exports);
