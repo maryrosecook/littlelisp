@@ -11,3 +11,17 @@ Thank you to Martin Tornwall for the implementations of let and if.
 ## Repl
 
     $ node repl.js
+
+## Some runnable programs
+
+```lisp
+1
+```
+
+```lisp
+(first (1 2 3))
+```
+
+```lisp
+((lambda (x) (rest x)) ("a" "b" "c"))
+```
