@@ -10,7 +10,9 @@ Thank you to Martin Tornwall for the implementations of let and if.
 
 ## Repl
 
-    $ node repl.js
+```
+$ node repl.js
+```
 
 ## Some runnable programs
 
