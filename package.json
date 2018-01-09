@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node_modules/jasmine-node/bin/jasmine-node *.spec.js"
   },
-  "devDependencies": {
-    "jasmine-node": "1.7.1"
+  "dependencies": {
+    "jasmine-node": "^1.14.5"
   }
 }
