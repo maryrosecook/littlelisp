@@ -110,7 +110,7 @@
   };
 
   var tokenize = function(input) {
-    return input.split('"')
+    return input.replace(/^\;.*\n?/gm, '').split('"')
                 .map(function(x, i) {
                    if (i % 2 === 0) { // not in string
                      return x.replace(/\(/g, ' ( ')
