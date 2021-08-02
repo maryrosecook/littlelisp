@@ -36,6 +36,20 @@
 
       return interpret(input[2], letContext);
     },
+    
+    defunc: function(input, context) {
+      context.scope[input[1][0].value] = function() {
+        console.log('args');
+        console.log(arguments);
+        var funcArguments = arguments;
+        var funcScope = input[1][1].reduce(function(acc, x, i) {
+          acc[x.value] = funcArguments[i];
+          return acc;
+        }, {});
+        return interpret(input[1][2], new Context(funcScope, context));
+      };
+      return interpret(input[2], context);
+    },
 
     lambda: function(input, context) {
       return function() {
